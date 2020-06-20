@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: frontendd
+  name: frontendd
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontendd
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: frontendd
+    spec:
+      containers:
+      - image: thanapong036/frontend
+        imagePullPolicy: Always
+        name: frontend
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
